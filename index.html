@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework – Class 2 (Interactive)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fb;
+            color: #1e2a3a;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 40px 45px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #0f2027;
+            border-bottom: 4px solid #ffd700;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+        h2 {
+            font-size: 1.6rem;
+            color: #1e3c72;
+            margin-top: 35px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h2 .badge {
+            background: #1e3c72;
+            color: #fff;
+            font-size: 0.9rem;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+        .task-intro {
+            background: #f0f4fe;
+            padding: 16px 22px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            color: #1e3c72;
+            border-left: 6px solid #ffd700;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 10px 0;
+            font-size: 1.05rem;
+        }
+        th {
+            background: #1e3c72;
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background: #f8faff;
+        }
+        .marker-en {
+            font-weight: 600;
+            color: #0f2027;
+        }
+        .marker-ru {
+            color: #2a5298;
+            font-weight: 500;
+        }
+        .example {
+            color: #4a5568;
+            font-size: 0.92rem;
+            font-style: italic;
+        }
+
+        .exercise-box {
+            background: #fafcff;
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 20px 25px;
+            margin: 20px 0;
+        }
+        .exercise-box p {
+            margin: 14px 0;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        .exercise-box .q {
+            font-weight: 500;
+        }
+        .blank {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 2px dashed #a0aec0;
+            margin: 0 4px;
+            padding: 0 6px;
+            font-weight: 600;
+            color: #c05621;
+        }
+        .tense-box {
+            background: #e8f0fe;
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin: 10px 0;
+            display: inline-block;
+            font-size: 0.95rem;
+            color: #1e3c72;
+        }
+        .tense-box span {
+            background: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin: 0 4px;
+            display: inline-block;
+            border: 1px solid #cbd5e0;
+        }
+        .footer-note {
+            margin-top: 25px;
+            text-align: center;
+            color: #718096;
+            font-size: 0.95rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        /* Interactive Task 3 styles */
+        .interactive-box .blank-input {
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 1rem;
+            min-width: 130px;
+            background: #fff;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .interactive-box .blank-input:focus {
+            border-color: #1e3c72;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.15);
+        }
+        .interactive-box .blank-input.correct {
+            border-color: #38a169;
+            background: #f0fff4;
+        }
+        .interactive-box .blank-input.incorrect {
+            border-color: #e53e3e;
+            background: #fff5f5;
+        }
+        .interactive-box .blank-input.show-answer {
+            border-color: #2a5298;
+            background: #ebf4ff;
+        }
+        .btn-group {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 20px 0 10px 0;
+            justify-content: center;
+        }
+        .btn-group button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            background: #1e3c72;
+            color: #fff;
+        }
+        .btn-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(30, 60, 114, 0.3);
+        }
+        .btn-group button.secondary {
+            background: #edf2f7;
+            color: #1e3c72;
+        }
+        .btn-group button.secondary:hover {
+            background: #e2e8f0;
+        }
+        .score-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e3c72;
+            background: #e8f0fe;
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .story-text {
+            font-size: 1.05rem;
+            line-height: 2.0;
+        }
+        .story-text .blank-wrapper {
+            display: inline-block;
+            margin: 0 2px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 24px 18px; }
+            h1 { font-size: 1.8rem; }
+            table, .exercise-box p { font-size: 0.95rem; }
+            .blank-input { min-width: 90px; font-size: 0.9rem; }
+            .btn-group button { padding: 8px 16px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📘 Homework – Class 2</h1>
+    <p style="font-size:1.1rem; color:#2d3748; margin-bottom:10px;">
+        <strong>Goal:</strong> Consolidate hedging language and review essential B2 tenses.
+    </p>
+
+    <!-- ===== TASK 1 ===== -->
+    <h2>Task 1 <span class="badge">Reference</span></h2>
+    <div class="task-intro">
+        <strong>🔹 Hedging Words & Phrases – B2 level</strong><br>
+        Study these hedging expressions with their Russian translations. They help you avoid being too direct or absolute.
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>English</th>
+                <th>Русский перевод</th>
+                <th>Example / Пример</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="marker-en">appears to</td><td class="marker-ru">по-видимому, кажется</td><td class="example">The data <strong>appears to</strong> support our theory.</td></tr>
+            <tr><td class="marker-en">seems like</td><td class="marker-ru">похоже, что</td><td class="example">It <strong>seems like</strong> they are considering our offer.</td></tr>
+            <tr><td class="marker-en">tends to</td><td class="marker-ru">как правило, имеет тенденцию</td><td class="example">Our clients <strong>tend to</strong> prefer face‑to‑face meetings.</td></tr>
+            <tr><td class="marker-en">could be argued that</td><td class="marker-ru">можно утверждать, что</td><td class="example">It <strong>could be argued that</strong> remote work increases productivity.</td></tr>
+            <tr><td class="marker-en">potentially</td><td class="marker-ru">потенциально</td><td class="example">This could <strong>potentially</strong> lead to cost savings.</td></tr>
+            <tr><td class="marker-en">I would imagine</td><td class="marker-ru">я полагаю, я бы предположил</td><td class="example"><strong>I would imagine</strong> they will accept the proposal.</td></tr>
+            <tr><td class="marker-en">suggests</td><td class="marker-ru">предполагает, указывает</td><td class="example">The evidence <strong>suggests</strong> a change in consumer behaviour.</td></tr>
+            <tr><td class="marker-en">likely</td><td class="marker-ru">вероятно</td><td class="example">The project is <strong>likely</strong> to be completed on time.</td></tr>
+            <tr><td class="marker-en">might</td><td class="marker-ru">возможно, может быть</td><td class="example">We <strong>might</strong> need to reconsider our strategy.</td></tr>
+            <tr><td class="marker-en">perhaps</td><td class="marker-ru">возможно</td><td class="example"><strong>Perhaps</strong> we should look at other options.</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ===== TASK 2 ===== -->
+    <h2>Task 2 <span class="badge">Practice – Hedging</span></h2>
+    <div class="task-intro">
+        <strong>✏️ Choose the correct hedging word or phrase</strong><br>
+        Fill in each blank with the best option from the box below.
+        <span style="display:block; margin-top:6px; background:#e2e8f0; padding:8px 14px; border-radius:30px; display:inline-block;">
+            <strong>Box:</strong> appears to &nbsp;·&nbsp; seems like &nbsp;·&nbsp; tends to &nbsp;·&nbsp; could be argued that &nbsp;·&nbsp; potentially &nbsp;·&nbsp; I would imagine &nbsp;·&nbsp; suggests &nbsp;·&nbsp; likely &nbsp;·&nbsp; might &nbsp;·&nbsp; perhaps
+        </span>
+        <span style="display:block; margin-top:8px; color:#4a5568;">📌 No score – just practise. Bring your answers to Class 3 and we'll check them together.</span>
+    </div>
+
+    <div class="exercise-box">
+        <p><span class="q">1.</span> The new software <span class="blank">__________</span> be more efficient than the old version.</p>
+        <p><span class="q">2.</span> It <span class="blank">__________</span> they are not interested in our proposal.</p>
+        <p><span class="q">3.</span> Our customers <span class="blank">__________</span> prefer products with premium features.</p>
+        <p><span class="q">4.</span> It <span class="blank">__________</span> that remote work reduces office costs.</p>
+        <p><span class="q">5.</span> This investment could <span class="blank">__________</span> generate high returns.</p>
+        <p><span class="q">6.</span> <span class="blank">__________</span> they are already aware of the issue.</p>
+        <p><span class="q">7.</span> The recent data <span class="blank">__________</span> that the market is recovering.</p>
+        <p><span class="q">8.</span> The project is <span class="blank">__________</span> to be completed ahead of schedule.</p>
+        <p><span class="q">9.</span> We <span class="blank">__________</span> need to hire additional staff.</p>
+        <p><span class="q">10.</span> <span class="blank">__________</span> we should schedule a follow‑up meeting.</p>
+    </div>
+
+    <!-- ===== TASK 3 – INTERACTIVE ===== -->
+    <h2>Task 3 <span class="badge">Interactive Grammar – Tenses</span></h2>
+    <div class="task-intro">
+        <strong>✏️ Complete the story with the correct tense</strong><br>
+        Put the verbs in brackets into the correct tense.
+        <span style="display:block; margin-top:6px;">
+            <span class="tense-box">
+                <span>Present Simple</span> <span>Present Continuous</span> <span>Present Perfect</span><br>
+                <span>Past Simple</span> <span>Past Continuous</span> <span>Past Perfect</span> <span>Future Simple</span>
+            </span>
+        </span>
+        <span style="display:block; margin-top:8px; color:#4a5568;">
+            📌 Type your answers in the boxes below, then click <strong>"Check Answers"</strong> for instant feedback.
+        </span>
+    </div>
+
+    <div class="exercise-box interactive-box" id="grammar-exercise">
+        <div class="story-text">
+            <p style="margin-bottom:16px;">
+                Since I <span class="blank-wrapper"><input type="text" class="blank-input" id="gap1" placeholder="(1) start" data-answer="started"></span> 
+                my career in marketing, I 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap2" placeholder="(2) learn" data-answer="have learned"></span> 
+                a great deal about consumer behaviour. 
+                At the moment, I 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap3" placeholder="(3) work" data-answer="am working"></span> 
+                on a new campaign for our biggest client. 
+                Last year, while I 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap4" placeholder="(4) prepare" data-answer="was preparing"></span> 
+                the annual report, my manager 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap5" placeholder="(5) ask" data-answer="asked"></span> 
+                me to take on a new project. 
+                By the time we 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap6" placeholder="(6) finish" data-answer="finished"></span> 
+                the initial research, we 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap7" placeholder="(7) already / spend" data-answer="had already spent"></span> 
+                two months on data collection. 
+                However, we 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap8" placeholder="(8) finally / complete" data-answer="finally completed"></span> 
+                the project on time. 
+                Next quarter, we 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap9" placeholder="(9) present" data-answer="will present"></span> 
+                our findings to the board. 
+                I 
+                <span class="blank-wrapper"><input type="text" class="blank-input" id="gap10" placeholder="(10) believe" data-answer="believe"></span> 
+                this will be a huge success.
+            </p>
+        </div>
+
+        <div style="text-align:center; margin: 16px 0 8px 0;">
+            <span class="score-display" id="scoreDisplay">📊 Score: — / 10</span>
+        </div>
+
+        <div class="btn-group">
+            <button id="checkBtn">✅ Check Answers</button>
+            <button id="showBtn" class="secondary">🔍 Show All Answers</button>
+            <button id="resetBtn" class="secondary">🔄 Reset</button>
+        </div>
+        <p style="font-size:0.92rem; color:#718096; text-align:center; margin-top:10px;">
+            <span id="feedbackMsg"></span>
+        </p>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer-note">
+        ⏱️ Estimated time: <strong>20–25 minutes</strong> &nbsp;·&nbsp; Bring your answers to Class 3!
+    </div>
+</div>
+
+<script>
+    (function() {
+        const gapIds = ['gap1', 'gap2', 'gap3', 'gap4', 'gap5', 'gap6', 'gap7', 'gap8', 'gap9', 'gap10'];
+        const checkBtn = document.getElementById('checkBtn');
+        const showBtn = document.getElementById('showBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const feedbackMsg = document.getElementById('feedbackMsg');
+
+        function getInputs() {
+            return gapIds.map(id => document.getElementById(id));
+        }
+
+        function checkAnswers() {
+            const inputs = getInputs();
+            let correct = 0;
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim();
+                const correctAnswer = input.dataset.answer;
+                // Normalize spaces for comparison
+                const normalizedUser = userAnswer.replace(/\s+/g, ' ').trim();
+                const normalizedCorrect = correctAnswer.replace(/\s+/g, ' ').trim();
+
+                // Remove any existing classes
+                input.classList.remove('correct', 'incorrect', 'show-answer');
+
+                if (normalizedUser === '') {
+                    // empty – leave neutral
+                    return;
+                }
+
+                if (normalizedUser.toLowerCase() === normalizedCorrect.toLowerCase()) {
+                    input.classList.add('correct');
+                    correct++;
+                } else {
+                    input.classList.add('incorrect');
+                }
+            });
+            // Update score
+            const total = inputs.length;
+            scoreDisplay.textContent = `📊 Score: ${correct} / ${total}`;
+
+            if (correct === total) {
+                feedbackMsg.textContent = '🎉 Perfect! All answers are correct. Great job!';
+                feedbackMsg.style.color = '#38a169';
+            } else if (correct >= 7) {
+                feedbackMsg.textContent = `👍 Good effort! You got ${correct} out of ${total}. Review the ones in red.`;
+                feedbackMsg.style.color = '#d69e2e';
+            } else if (correct > 0) {
+                feedbackMsg.textContent = `📖 Keep practising! You got ${correct} out of ${total}. Try again or click "Show All Answers".`;
+                feedbackMsg.style.color = '#e53e3e';
+            } else {
+                feedbackMsg.textContent = '💪 Start by filling in the blanks, then click "Check Answers".';
+                feedbackMsg.style.color = '#718096';
+            }
+        }
+
+        function showAllAnswers() {
+            const inputs = getInputs();
+            inputs.forEach(input => {
+                input.classList.remove('correct', 'incorrect');
+                input.classList.add('show-answer');
+                input.value = input.dataset.answer;
+            });
+            scoreDisplay.textContent = `📊 Score: — / 10`;
+            feedbackMsg.textContent = '🔍 All answers shown. Study them, then click "Reset" to try again.';
+            feedbackMsg.style.color = '#2a5298';
+        }
+
+        function resetExercise() {
+            const inputs = getInputs();
+            inputs.forEach(input => {
+                input.classList.remove('correct', 'incorrect', 'show-answer');
+                input.value = '';
+            });
+            scoreDisplay.textContent = `📊 Score: — / 10`;
+            feedbackMsg.textContent = '🔄 Reset complete. Try filling in the gaps again!';
+            feedbackMsg.style.color = '#718096';
+        }
+
+        // Event listeners
+        checkBtn.addEventListener('click', checkAnswers);
+        showBtn.addEventListener('click', showAllAnswers);
+        resetBtn.addEventListener('click', resetExercise);
+
+        // Allow Enter key to trigger Check
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const active = document.activeElement;
+                if (active && active.classList && active.classList.contains('blank-input')) {
+                    checkAnswers();
+                }
+            }
+        });
+
+        // Initial feedback
+        feedbackMsg.textContent = '💡 Fill in the blanks, then press "Check Answers".';
+    })();
+</script>
+
+</body>
+</html>
